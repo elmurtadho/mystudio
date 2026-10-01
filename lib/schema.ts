@@ -14,5 +14,24 @@ export const tools = sqliteTable("tools", {
   updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`).notNull(),
 });
 
+export const activityLogs = sqliteTable("activity_logs", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  action: text("action").notNull(), // CREATE, UPDATE, DELETE, TOGGLE_STATUS, LOGIN, SETTINGS_UPDATE
+  target: text("target").notNull(),
+  details: text("details"),
+  createdAt: text("created_at").default(sql`(CURRENT_TIMESTAMP)`).notNull(),
+});
+
+export const studioSettings = sqliteTable("studio_settings", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  key: text("key").notNull().unique(),
+  value: text("value").notNull(),
+  updatedAt: text("updated_at").default(sql`(CURRENT_TIMESTAMP)`).notNull(),
+});
+
 export type Tool = typeof tools.$inferSelect;
 export type NewTool = typeof tools.$inferInsert;
+export type ActivityLog = typeof activityLogs.$inferSelect;
+export type NewActivityLog = typeof activityLogs.$inferInsert;
+export type StudioSetting = typeof studioSettings.$inferSelect;
+export type NewStudioSetting = typeof studioSettings.$inferInsert;
